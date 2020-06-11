@@ -1,0 +1,49 @@
+version: "3"
+
+services: 
+    api:
+        image: compucare-api
+        volumes: 
+            - ./api:/root
+        ports: 
+            - 8001:7071
+        
+        command: yarn start
+
+    admin:
+        image: node:12.16.3-alpine3.9
+        volumes:
+            - ./admin:/root
+        working_dir: /root
+        ports:
+            - 8002:8000
+        environment: 
+            - COMPUCARE_API_URL=http://localhost:8001
+        command: "yarn develop -H 0.0.0.0"
+        restart: always
+
+    web:
+        image: node:12.16.3-alpine3.9
+        volumes:
+            - ./web:/root
+        working_dir: /root
+        ports:
+            - 8003:8000
+        environment: 
+            - COMPUCARE_API_URL=http://api:7071
+        command: "yarn develop -H 0.0.0.0"
+        restart: always
+
+    uploads-build:
+        image: node:12.16.3-alpine3.9
+        volumes:
+            - ./uploads:/root
+        working_dir: /root
+        command: yarn build
+
+    uploads-host:
+        image: httpd:2.4.41-alpine
+        ports: 
+            - 8004:80
+        volumes:
+            - ./uploads/_build:/usr/local/apache2/htdocs
