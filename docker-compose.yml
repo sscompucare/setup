@@ -19,6 +19,8 @@ services:
             - 8002:8000
         environment: 
             - COMPUCARE_API_URL=http://localhost:8001
+            - WEB_BUILD_HOOK=http://localhost:8002
+            - UPLOADS_BUILD_HOOK=http://localhost:8002
         command: "yarn develop -H 0.0.0.0"
         restart: always
 
@@ -47,3 +49,4 @@ services:
             - 8004:80
         volumes:
             - ./uploads/_build:/usr/local/apache2/htdocs
+            
