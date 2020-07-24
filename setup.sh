@@ -27,4 +27,3 @@ docker run -it --rm \
     node:12.16.3-alpine3.9 yarn
 
 docker-compose down
-docker-compose up
