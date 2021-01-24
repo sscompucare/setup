@@ -35,18 +35,3 @@ services:
             - COMPUCARE_API_URL=http://api:7071
         command: "yarn develop -H 0.0.0.0"
         restart: always
-
-    uploads-build:
-        image: node:12.16.3-alpine3.9
-        volumes:
-            - ./uploads:/root
-        working_dir: /root
-        command: yarn build
-
-    uploads-host:
-        image: httpd:2.4.41-alpine
-        ports: 
-            - 8004:80
-        volumes:
-            - ./uploads/_build:/usr/local/apache2/htdocs
-            
